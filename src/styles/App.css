@@ -19,20 +19,18 @@ p {
 
 .header-container {
   padding-top: 30px;
-}
-
-header{
-  display: flex;
-  flex-direction: row;
+  display: flex;  
+  flex-direction:row;
   justify-content: space-between;
   padding: 10px 10px 10px 10px;
 }
+
 
 .title {
   margin: 0;
   font-size: 35px;
   font-weight: bold;
-  color: white;
+  color: red;
 }
 
 .subtitle {
@@ -41,8 +39,12 @@ header{
 }
 
 .left{
-  text-align: left;
+  display: flex;
+  text-align: center;
   margin-left: 10%;
+  flex-direction: row;
+  
+  
 }
 
 .logo{
@@ -53,16 +55,18 @@ header{
 
 .right{
   display: flex;
-  background: black;
+  background: -webkit-linear-gradient(left, #f00018, #ff7e14);
   border-radius: 16px;
   padding: 12px 20px;
   height: 99%;
   margin-right: 10%;
   margin-top: 10px;
+  flex-direction: row;
+
 }
 
 .content-container {
-  background-color: #a200d6;
+  background-color: #d6000b;
 }
 
 .cta-button {
@@ -93,18 +97,18 @@ header{
   background-image: linear-gradient(
     to right,
     #ff8177 0%,
-    #ff867a 0%,
-    #ff8c7f 21%,
-    #f99185 52%,
-    #cf556c 78%,
-    #b12a5b 100%
+    #fb7f45 0%,
+    #fad869 21%,
+    #f9b385 52%,
+    #cd0000 78%,
+    #ae0000 100%
   );
   background-size: 200% 200%;
   animation: gradient-animation 4s ease infinite;
 }
 
 .mint-button {
-  background: -webkit-linear-gradient(left, #a200d6, #ff6fdf);
+  background: -webkit-linear-gradient(left, #f00018, #ff7e14);
   font-size: 18px;
   background-size: 200% 200%;
   animation: gradient-animation 4s ease infinite;
@@ -114,7 +118,7 @@ header{
 }
 
 .mint-button:disabled{
-  background: #550072;
+  background: #d6000b;
   color: rgb(209, 209, 209);
   cursor: not-allowed;
 }
@@ -203,7 +207,6 @@ input:focus {
   font-size: 20px;
   font-weight: bold;
   color: white;
-  /* left: -70px; */
   right: 22px;
   margin: 0;  
   padding: 0;
@@ -228,24 +231,24 @@ input:focus {
   border-radius: 5px;
   margin: 10px 15px;
   font-size: 18px;
-  background-color: #c4b7fa;
+  background-color: #f05502;
   color: black;
   min-width: 150px;
   max-width: fit-content;
-  box-shadow: 0px 0px 10px 3px rgba(255, 255, 255, 0.2);
+  box-shadow: 0px 0px 10px 3px rgba(121, 0, 0, 0.2);
 }
 
 /* Different background-colour for every nth mint-item */
 .mint-item:nth-child(2n) {
-  background-color: lightblue;
+  background-color: rgb(250, 2, 2);
 }
 
 .mint-item:nth-child(3n) {
-  background-color: lightpink;
+  background-color: rgb(250, 51, 2);
 }
 
 .mint-item:nth-child(5n) {
-  background-color: lightgreen;
+  background-color: rgb(246, 94, 0);
 }
 
 .link{
