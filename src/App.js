@@ -1,8 +1,8 @@
 import "./styles/App.css";
 import { ethers } from "ethers";
 import ethLogo from "./assets/ethlogo.png";
-import { networks } from "./src/utils/networks";
-import contractAbi from "./src/utils/contractABI.json";
+import { networks } from "./utils/networks.js";
+import contractAbi from "./utils/contractABI.json";
 import React, { useEffect, useState } from "react";
 import twitterLogo from "./assets/twitter-logo.svg";
 import polygonLogo from "./assets/polygonlogo.png";
@@ -11,7 +11,7 @@ import devil from "./assets/devil.svg";
 const tld = ".hell";
 const TWITTER_HANDLE = "_buildspace";
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
-const CONTRACT_ADDRESS = "0xf61942735c77021a06cF1587db9fa08474A65eb9";
+const CONTRACT_ADDRESS = "0x4f74feb5B1232eD782a5aAd3970B4EF3a0fB6759";
 
 const App = () => {
     const [mints, setMints] = useState([]);
@@ -21,6 +21,9 @@ const App = () => {
     const [editing, setEditing] = useState(false);
     const [loading, setLoading] = useState(false);
     const [currentAccount, setCurrentAccount] = useState("");
+    const [email , setEmail] = useState("");
+    const [webpage , setWebpage] = useState("");
+  
 
     const connectWallet = async () => {
         try {
@@ -58,11 +61,15 @@ const App = () => {
                     names.map(async (name) => {
                         const mintRecord = await contract.records(name);
                         const owner = await contract.domains(name);
+                        const email = await contract.emails(name);
+                        const webpage = await contract.webpages(name);
                         return {
                             id: names.indexOf(name),
                             name: name,
                             record: mintRecord,
                             owner: owner,
+                            email: email,
+                            webpage: webpage,
                         };
                     })
                 );
@@ -88,13 +95,15 @@ const App = () => {
                 const signer = provider.getSigner();
                 const contract = new ethers.Contract(CONTRACT_ADDRESS, contractAbi.abi, signer);
 
-                let tx = await contract.setRecord(domain, record);
+                let tx = await contract.setAll(domain, record, email, webpage);
                 await tx.wait();
                 console.log("Record set https://mumbai.polygonscan.com/tx/" + tx.hash);
 
                 fetchMints();
                 setRecord("");
                 setDomain("");
+                setEmail("");
+                setWebpage("");
             }
         } catch (error) {
             console.log(error);
@@ -134,7 +143,7 @@ const App = () => {
                     console.log("Domain minted! https://mumbai.polygonscan.com/tx/" + tx.hash);
 
                     // Set the record for the domain
-                    tx = await contract.setRecord(domain, record);
+                    tx = await contract.setAll(domain, record, email, webpage);
                     await tx.wait();
 
                     console.log("Record set! https://mumbai.polygonscan.com/tx/" + tx.hash);
@@ -146,6 +155,8 @@ const App = () => {
 
                     setRecord("");
                     setDomain("");
+                    setEmail("");
+                    setWebpage(""); 
                 } else {
                     alert("Transaction failed! Please try again");
                 }
@@ -225,7 +236,9 @@ const App = () => {
                                             </button>
                                         ) : null}
                                     </div>
-                                    <p> {mint.record} </p>
+                                    <p> Record: {mint.record} </p>
+                                    
+                                    
                                 </div>
                             );
                         })}
@@ -306,6 +319,9 @@ const App = () => {
                 </div>
 
                 <input type="text" value={record} placeholder="What scares you?" onChange={(e) => setRecord(e.target.value)} />
+                <input type="text" value={email} placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+                <input type="text" value={webpage} placeholder="Webpage" onChange={(e) => setWebpage(e.target.value)} />
+                
                 {/* If the editing variable is true, return the "Set record" and "Cancel" button */}
                 {editing ? (
                     <div className="button-container">
